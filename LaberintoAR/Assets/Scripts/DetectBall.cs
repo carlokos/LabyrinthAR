@@ -13,10 +13,13 @@ public class DetectBall : MonoBehaviour
     */
     [SerializeField] private bool isGoal;
     [SerializeField] private AudioManager AM;
+    
 
     [Header("Goal")]
     private bool goalReached = false;
     [SerializeField] private GameObject txtCongratulations, confetti;
+    [SerializeField] private PointsManager txtPoints;
+    [SerializeField] private float points;
 
     [Header ("Key")]
     [SerializeField] private GameObject door;
@@ -26,6 +29,7 @@ public class DetectBall : MonoBehaviour
         {
             goalReached = true;
             StartCoroutine(showText());
+            txtPoints.addPoints(points);
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
             other.gameObject.GetComponent<Collider>().enabled = false;
             Instantiate(confetti, other.transform);
