@@ -12,27 +12,29 @@ public class DetectBall : MonoBehaviour
     * Si es una llave abrira una puerta automaticamente que le pasamos mediante script
     */
     [SerializeField] private bool isGoal;
+    [SerializeField] private AudioManager AM;
 
-    [Header ("Goal")]
+    [Header("Goal")]
+    private bool goalReached = false;
     [SerializeField] private GameObject txtCongratulations, confetti;
-    [SerializeField] private AudioSource congratsSound;
 
     [Header ("Key")]
     [SerializeField] private GameObject door;
-    [SerializeField] private AudioSource keyObtenined;
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && isGoal)
+        if (other.CompareTag("Player") && isGoal && !goalReached)
         {
+            goalReached = true;
             StartCoroutine(showText());
             other.gameObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
             other.gameObject.GetComponent<Collider>().enabled = false;
+            Instantiate(confetti, other.transform);
         }
         else if(!isGoal)
         {
+            AM.keySound();
             Destroy(door.gameObject);
             Destroy(this.gameObject);
-            keyObtenined.Play();
         }
     }
 
@@ -43,10 +45,8 @@ public class DetectBall : MonoBehaviour
     {
         txtCongratulations.SetActive(true);
         txtCongratulations.GetComponent<Animator>().SetTrigger("textAnimation");
-        confetti.SetActive(true);
-        congratsSound.Play();
+        AM.goalSound();
         yield return new WaitForSeconds(2f);
-        confetti.SetActive(false);
         txtCongratulations.SetActive(false);
     }
 }
