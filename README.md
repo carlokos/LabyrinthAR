@@ -1,2 +1,2 @@
 # LabyrinthAR
-[Nuevo Documento de Microsoft Word.docx](https://github.com/carlokos/LabyrinthAR/files/10475359/Nuevo.Documento.de.Microsoft.Word.docx)
+Juego de realidad virtual para un proyecto de clase (2022-2023) realizado con Unity y Vuforia.
